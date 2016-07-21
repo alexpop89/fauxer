@@ -1,1 +1,1 @@
-web: node index.js
+web: grunt deploy && node index.js

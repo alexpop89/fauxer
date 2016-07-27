@@ -20,8 +20,6 @@ USE `fauxr-errors` ;
 -- -----------------------------------------------------
 -- Table `fauxr-errors`.`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fauxr-errors`.`users` ;
-
 CREATE TABLE IF NOT EXISTS `fauxr-errors`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
@@ -35,8 +33,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `fauxr-errors`.`projects`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fauxr-errors`.`projects` ;
-
 CREATE TABLE IF NOT EXISTS `fauxr-errors`.`projects` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -56,8 +52,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `fauxr-errors`.`locations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fauxr-errors`.`locations` ;
-
 CREATE TABLE IF NOT EXISTS `fauxr-errors`.`locations` (
   `id` INT NOT NULL,
   `ipAddress` VARCHAR(255) NOT NULL,
@@ -77,8 +71,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `fauxr-errors`.`errors`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fauxr-errors`.`errors` ;
-
 CREATE TABLE IF NOT EXISTS `fauxr-errors`.`errors` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `message` TEXT NULL,
@@ -107,7 +99,26 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`errors` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `fauxr-errors`.`sessions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fauxr-errors`.`sessions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user` INT NOT NULL,
+  `created` VARCHAR(255) NOT NULL,
+  `sessionscol` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_sessions_1_idx` (`user` ASC),
+  CONSTRAINT `fk_sessions_1`
+    FOREIGN KEY (`user`)
+    REFERENCES `fauxr-errors`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+ALTER TABLE users ADD COLUMN `isSuperAdmin` TINYINT(1) NOT NULL DEFAULT 0;

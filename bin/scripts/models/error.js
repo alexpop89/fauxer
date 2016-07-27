@@ -17,6 +17,10 @@ class ErrorClass {
 
         console.log(this);
     }
+
+    save() {
+
+    }
 }
 
 module.exports = ErrorClass;

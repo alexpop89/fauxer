@@ -15,13 +15,7 @@ class HelperClass {
     }
 
     makeArray(param) {
-        if (typeof param === 'object') {
-            return Array.map(param, function(value) {
-                return [value];
-            });
-        }
-
-        return [param];
+        return typeof param === 'object' ? param : [param];
     }
 }
 

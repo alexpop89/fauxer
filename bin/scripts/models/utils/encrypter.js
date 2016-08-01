@@ -1,3 +1,4 @@
+const Promise = require('promise');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -13,22 +14,20 @@ class EncrypterClass {
     }
 
     encryptPassword(password) {
-        var encryptedPassword;
-        bcrypt.hash(password, saltRounds, function(error, hash) {
-            encryptedPassword = hash;
+        return new Promise((resolve, reject) => {
+            bcrypt.hash(password, saltRounds, function(error, hash) {
+                error ? reject(error) : resolve(hash);
+            });
         });
-
-        return encryptedPassword;
     }
 
     isEqual(password, encryptedPassword) {
-        var isEqual = false;
-        bcrypt.compare(password, encryptedPassword, function(error, result) {
-            isEqual = !!result;
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(password, encryptedPassword, function(error, result) {
+                error ? reject() : resolve();
+            });
         });
-
-        return isEqual;
     }
 }
 
-module.exports = new EncrypterClass()
+module.exports = new EncrypterClass();

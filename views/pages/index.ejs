@@ -1,32 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script>
-        !function(b,c,d,e){var f=0,g=b.onerror;b._fauxrErrors={id:e,errors:[]},c.addEventListener("DOMContentLoaded",function(){f=1}),b.onload=function(){f=2},b.onerror=function(c,d,e,h,i){b._fauxrErrors.errors.push({message:c,source:d,lineNo:e,colNo:h,error:i,loadState:f,timestamp:(new Date).getTime()}),g&&g.apply(this,a)};var h=function(){var a=c.createElement(d),b=c.getElementsByTagName(d)[0];a.src="http://localhost:5000/fauxr-controller.min.js",a.async=!0,b.parentNode.insertBefore(a,b)};b.addEventListener?b.addEventListener("load",h,!1):b.attachEvent("onload",h)}(window,document,"script","5762570e65f107d823000043");
-    </script>
-
     <% include ../partials/header.ejs %>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/pages/index.css">
 </head>
 
 <body>
-<% include ../partials/nav.ejs %>
-<div class="jumbotron text-center">
-    <div class="container">
-        <a href="/" class="lang-logo">
-            <img src="/images/logo.png">
-        </a>
-        <h1>Fauxr error catcher on Herokuu</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur leo vel fermentum gravida.</p>
+    <% include ../partials/nav.ejs %>
+    <div class="jumbotron text-center">
+        <div class="container">
+            <a href="/" class="lang-logo">
+                <img src="/images/logo.png">
+            </a>
+            <h1>Fauxr error catcher on Herokuu</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur leo vel fermentum gravida.</p>
+        </div>
     </div>
-</div>
-<div class="container">
-    <textarea rows="5" readonly onclick="this.focus();this.select();">
-      &lt;script&gt;
-        <% include ../../public/fauxr.min.js %>
-        &lt;&#47;script&gt;
-    </textarea>
-</div>
-
+    <div class="container">
+        <textarea rows="5" readonly onclick="this.focus();this.select();">
+          &lt;script&gt;
+            <% include ../../public/fauxr.min.js %>
+            &lt;&#47;script&gt;
+        </textarea>
+    </div>
 </body>
 </html>

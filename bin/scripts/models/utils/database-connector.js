@@ -66,10 +66,11 @@ class DataBaseConnector {
 
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
-                valuesString += key + '=' + data[key] + ', ';
+                valuesString += key + '=\'' + data[key] + '\', ';
             }
         }
 
+        valuesString = valuesString.replace(/,\s*$/, "");
         conditionsString = this._getConditionsString(conditions);
 
         return this._query('UPDATE ' + table + ' SET ' + valuesString + ' WHERE ' + conditionsString + ';');
@@ -95,20 +96,23 @@ class DataBaseConnector {
     _getConditionsString(conditions) {
         var conditionsString = '';
         var conditionIndex = 0;
+        var conditionsLogic = conditions._matchAll ? 'AND' : 'OR';
+
+        delete conditions['_matchAll'];
 
         for (let condition in conditions) {
             if (conditions.hasOwnProperty(condition)) {
                 if (conditionIndex > 0) {
                     conditionsString += ' ' + conditionsLogic + ' ';
                 }
+                conditionIndex += 1;
+                conditionsString += condition;
 
-                conditionsString += condition + ' ';
-
-                if (conditions[condition].indexOf('*') > -1) {
+                if (conditions[condition].toString().indexOf('*') > -1) {
                     conditions[condition].replace(/\*/gi, '%');
-                    conditionsString += 'LIKE \'' + conditions[condition] + '\'';
+                    conditionsString += ' LIKE \'' + conditions[condition] + '\'';
                 } else {
-                    conditionsString += 'IS \'' + conditions[condition] + '\'';
+                    conditionsString += '=\'' + conditions[condition] + '\'';
                 }
             }
         }
@@ -118,7 +122,7 @@ class DataBaseConnector {
 
     _query(queryString) {
         return new Promise((resolve, reject) => {
-            this.connection.query(queryString, ({error, rows, fields}) => {
+            this.connection.query(queryString, (error, rows, fields) => {
                 if (error) {
                     reject();
                     throw new Error(error);

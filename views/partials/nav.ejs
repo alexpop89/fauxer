@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+<nav class="navbar navbar-static-top">
     <div class="container">
         <ul class="nav navbar-nav">
             <li class="active">
@@ -41,7 +41,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="navbar-right">
                 <% if (!loggedIn) { %>
-                    <a href="/signup"><span class="glyphicon glyphicon-log-in"></span>Sign In</a>
+                    <a href="/user/sign-in"><span class="glyphicon glyphicon-log-in"></span>Sign In</a>
                 <% } else { %>
                     <a href="/project"><span class="glyphicon glyphicon-user"></span></span>My Project</a>
                 <% } %>

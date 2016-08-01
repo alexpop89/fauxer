@@ -1,26 +1,21 @@
 class BaseClass {
-    serialize() {
-        var result = {},
-            clone = this._clone();
+    constructor() {
 
-        for (let attribute in clone) {
-            if (clone.hasOwnProperty(attribute) && typeof this[attribute] !== 'function') {
-                result[attribute] = clone[attribute];
-            }
-        }
     }
 
-    _clone() {
-        var copy;
+    serialize() {
+        var excluded = this._excludedProperties || [],
+            result = JSON.parse(JSON.stringify(this));
 
-        copy = this.constructor();
-        for (let attribute in this) {
-            if (this.hasOwnProperty(attribute)) {
-                copy[attribute] = this[attribute];
+        for (let index in excluded) {
+            if (excluded.hasOwnProperty(index)) {
+                delete result[excluded[index]]
             }
         }
 
-        return copy;
+        delete result['_excludedProperties'];
+
+        return result;
     }
 }
 

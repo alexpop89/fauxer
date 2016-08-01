@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     flatten: true,
-                    src: ['bin/scripts/client/fauxr.js', 'bin/scripts/client/fauxr-controller.js'],
+                    src: ['bin/scripts/remote-scripts/fauxr.js', 'bin/scripts/remote-scripts/fauxr-controller.js'],
                     dest: 'public/',
                     filter: 'isFile'
                 }]

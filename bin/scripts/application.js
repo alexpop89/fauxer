@@ -1,13 +1,17 @@
 const express = require('express');
 const config = require('../../config');
 const bodyParser = require('body-parser');
+
 const indexRoutes = require('./routes/index');
-const errorRoutes = require('./routes/api/errors');
+const errorRoutes = require('./routes/error');
+const userRoutes = require('./routes/user');
+
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
 
 const DatabaseConnector = require('./models/utils/database-connector');
 const UserClass = require('./models/user');
+const Encrytper = require('./models/utils/encrypter');
 
 let instance = null;
 
@@ -60,7 +64,8 @@ class ApplicationController {
 
     _setupRoutes() {
         this.nodeJsAppInstance.use('/', indexRoutes);
-        this.nodeJsAppInstance.use('/api/errors', errorRoutes);
+        this.nodeJsAppInstance.use('/errors', errorRoutes);
+        this.nodeJsAppInstance.use('/user', userRoutes);
     }
 
     _startListening() {
@@ -74,8 +79,13 @@ class ApplicationController {
     }
 
     _setupAdminGod() {
-        var superUser = new UserClass(config.SUPER_ADMIN);
-        superUser.save();
+        return Encrytper.encryptPassword(config.SUPER_ADMIN.password).then(hash => {
+            var superUserData = config.SUPER_ADMIN;
+
+            superUserData.password = hash;
+            return new UserClass(superUserData).save();
+        });
+
     }
 }
 

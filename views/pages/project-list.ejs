@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+
+<body id="project-list">
+    <% include ../partials/nav.ejs %>
+    <div class="container">
+        <% for(let i = 0; i < projects.length; i += 1) { %>
+            <li>
+                <a href='/project/details/<%= projects[i].id %>'>
+                    <%= projects[i].name + ' (' + projects[i].url + ')' %>
+                </a>
+            </li>
+        <% } %>
+    </div>
+</body>
+</html>

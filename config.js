@@ -1,5 +1,6 @@
 const config = {
     "APPLICATION_PORT": 5000,
+    "SESSION_SECRET": "iamthedanger",
     "DATABASE_TABLES": {
         "USERS": "users",
         "LOCATIONS": "locations",
@@ -17,7 +18,8 @@ const config = {
     },
     "SUPER_ADMIN": {
         "email": 'god@sfappworks.com',
-        "password": 'iamthedanger'
+        "password": 'iamthedanger',
+        "isSuperAdmin": 1
     },
     "USER_ACTIONS": {
         "SIGN_IN": 'sign-in',

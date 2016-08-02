@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+
+<body id="project-details">
+    <% include ../partials/nav.ejs %>
+    <script type="text/javascript" src="/client-side/project-details.js"></script>
+    <div class="container">
+        <h1 class="row"><%= project.name %></h1>
+
+        <ul class="row" id="errors-list">
+            <% for(let i = 0; i < errors.length; i += 1) { %>
+            <li class="error" data-collapsed="true">
+                <div class="message"><strong><%= errors[i].message%></strong></div>
+                <div class="source"><label><strong>Source:</strong></label><%= errors[i].source%><strong>:<%= errors[i].lineNo%>:<%= errors[i].colNo%></strong></div>
+                <div class="time"><label>Occured: </label><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
+                <div class="toggle-stack-trace">Toggle Stack Trace</div>
+                <div class="stack-trace" style="display: none"><%= errors[i].stackTrace%></div>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</body>
+</html>

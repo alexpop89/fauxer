@@ -1,6 +1,7 @@
 const AuthenticationController = require('../controllers/user');
 const config = require('../../../config');
 
+let session = require('express-session');
 let express = require('express');
 let router = express.Router();
 
@@ -24,8 +25,9 @@ router.get('/sign-out', function(request, response) {
 
 router.post('/sign-in', function(request, response) {
     AuthenticationController.signInAction(request.body).then((data) => {
-        response.statusCode = 200;
-        response.end(JSON.stringify(data));
+        request.session.sessionHash = data.sessionHash;
+        request.session.userId = data.userId;
+        response.redirect('/');
     }, () => {
         response.render('pages/sign-in', {
             loggedIn: false

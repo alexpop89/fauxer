@@ -1,14 +1,18 @@
+const ProjectController = require('../controllers/project');
+const ErrorClass = require('../models/error');
+
 const express = require('express');
 const router = express.Router();
-const Error = require('../models/error');
 
 router.post('/', function (request, response) {
-    for (let error in request.body.errors) {
-        new Error(request.body.errors[error]);
-    }
+    ProjectController.getProjectDetails(request.body.id).then(project => {
+        for (let error in request.body.errors) {
+            new ErrorClass(request.body.errors[error], project[0].id).save();
+        }
 
-    response.statusCode = 200;
-    response.end();
+        response.statusCode = 200;
+        response.end();
+    });
 });
 
 module.exports = router;

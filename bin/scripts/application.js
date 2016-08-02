@@ -1,17 +1,21 @@
 const express = require('express');
 const config = require('../../config');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const indexRoutes = require('./routes/index');
 const errorRoutes = require('./routes/error');
 const userRoutes = require('./routes/user');
+const projectRouter = require('./routes/project');
 
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
 
 const DatabaseConnector = require('./models/utils/database-connector');
 const UserClass = require('./models/user');
+const ProjectClass = require('./models/project');
 const Encrytper = require('./models/utils/encrypter');
+const Helper = require('./models/utils/helper');
 
 let instance = null;
 
@@ -32,6 +36,7 @@ class ApplicationController {
         this._setupApplicationData();
         this._setupViews();
         this._setupBodyParser();
+        this._setupSessions();
         this._setupRequestHeaders();
         this._setupRoutes();
         this._setupDatabase();
@@ -46,6 +51,10 @@ class ApplicationController {
     _setupViews() {
         this.nodeJsAppInstance.set('views', appDir + '/views');
         this.nodeJsAppInstance.set('view engine', 'ejs');
+    }
+
+    _setupSessions() {
+        this.nodeJsAppInstance.use(session({secret: config.SESSION_SECRET}));
     }
 
     _setupBodyParser() {
@@ -64,8 +73,9 @@ class ApplicationController {
 
     _setupRoutes() {
         this.nodeJsAppInstance.use('/', indexRoutes);
-        this.nodeJsAppInstance.use('/errors', errorRoutes);
+        this.nodeJsAppInstance.use('/api/errors', errorRoutes);
         this.nodeJsAppInstance.use('/user', userRoutes);
+        this.nodeJsAppInstance.use('/project', projectRouter);
     }
 
     _startListening() {
@@ -75,7 +85,15 @@ class ApplicationController {
     }
 
     _setupDatabase() {
-        DatabaseConnector.setup().then(() => this._setupAdminGod(), err => { throw new Error(err); });
+        DatabaseConnector.setup().then(() => {
+            this._setupAdminGod().then(() => {
+                this._setupMainProject();
+            }, err => {
+                throw new Error(err)
+            });
+        }, err => {
+            throw new Error(err);
+        });
     }
 
     _setupAdminGod() {
@@ -86,6 +104,23 @@ class ApplicationController {
             return new UserClass(superUserData).save();
         });
 
+    }
+
+    _setupMainProject() {
+        var mainProjectData = {
+            name: 'LifeReimagined',
+            owner: null,
+            url: 'http://qa.lifereimagined.org'
+        };
+
+        DatabaseConnector.find(config.DATABASE_TABLES.USERS, ['id'], {email: config.SUPER_ADMIN.email}).then((rows) => {
+            if (rows && rows[0]) {
+                mainProjectData.owner = rows[0].id;
+                return new ProjectClass(mainProjectData).save();
+            }
+        }, err => {
+            throw new Error(err);
+        });
     }
 }
 

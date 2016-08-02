@@ -24,6 +24,27 @@ class SessionClass extends BaseClass {
         });
     }
 
+    checkSessionAvailability() {
+        var data = {
+            _matchAll: true,
+            user: this.user,
+            hash: this.hash
+        };
+
+        return DatabaseConnector.find(config.DATABASE_TABLES.SESSIONS, ['*'], data).then(rows => {
+            if (rows && rows[0]) {
+                if (new Date().getTime() - parseInt(rows[0], 10) > config.SESSION_LIFETIME) {
+                    throw new Error('Session expired.')
+                }
+                this.id = rows[0].id;
+                this.startTimestamp = parseInt(rows[0].startTimestamp, 10);
+                return this.save();
+            } else {
+                throw new Error('Invalid session.');
+            }
+        });
+    }
+
     _checkValidSession() {
         var data = {
             id: this.id || '',

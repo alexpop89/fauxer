@@ -21,6 +21,15 @@ class Validator {
         }
     }
 
+    containsLetters(string) {
+        try {
+            return string.match(/[a-z]/i).index > -1;
+        } catch (ignore) {
+            return false;
+        }
+
+    }
+
     passwordValid(passwordString) {
 
     }

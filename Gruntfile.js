@@ -21,6 +21,16 @@ module.exports = function(grunt) {
                     dest: 'public/',
                     filter: 'isFile'
                 }]
+            },
+
+            client_side: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    src: ['bin/scripts/client-side/**/*.js'],
+                    dest: 'public/client-side/',
+                    filter: 'isFile'
+                }]
             }
         },
 

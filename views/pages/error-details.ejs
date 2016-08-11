@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
+
+<body id="error-details">
+<% include ../partials/nav.ejs %>
+
+<div class="container">
+    <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div><%= errors[0].message%></div></h1>
+
+    <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <% for(let i = 0; i < errors.length; i += 1) { %>
+            <li>
+                <div><%= errors[i].source%>:<%= errors[i].lineNo%>:<%= errors[i].colNo%> </div>
+                <div><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
+                <div><%= errors[i].userAgent%></div>
+                <div><%= loadStates[errors[i].loadState] %></div>
+                <div><%= errors[i].locationData.countryName%>, <%= errors[i].locationData.ipAddress%></div>
+                <div>
+
+                </div>
+            </li>
+        <% } %>
+    </ul>
+</div>
+
+<% include ../partials/footer.ejs %>
+<script type="text/javascript" src="/client-side/project-details.js"></script>
+</body>
+</html>

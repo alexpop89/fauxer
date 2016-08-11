@@ -1,6 +1,5 @@
 const Validator = require('../models/utils/validator');
 const User = require('../models/user');
-const Session = require('../models/session');
 
 const config = require('../../../config');
 

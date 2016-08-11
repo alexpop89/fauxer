@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
+  `isSuperAdmin` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`projects` (
   `name` VARCHAR(255) NOT NULL,
   `hash` VARCHAR(255) NOT NULL,
   `owner` INT(11) NOT NULL,
+  `url` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_1_idx` (`owner` ASC),
@@ -65,10 +67,23 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`locations` (
   `timeZone` VARCHAR(255) NULL DEFAULT NULL,
   `latitude` INT(11) NULL DEFAULT NULL,
   `longitude` INT(11) NULL DEFAULT NULL,
-  `metro_code` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  `metroCode` INT(11) NULL DEFAULT NULL,
+  `countryName` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `fauxr-errors`.`lines`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fauxr-errors`.`lines` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `lineData` LONGTEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -86,10 +101,12 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`errors` (
   `stackTrace` TEXT NULL DEFAULT NULL,
   `location` INT(11) NOT NULL,
   `project` INT(11) NOT NULL,
+  `lines` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_1_idx` (`project` ASC),
   INDEX `fk_2_idx` (`location` ASC),
+  INDEX `fk_errors_3_idx` (`lines` ASC),
   CONSTRAINT `fk_errors_1`
     FOREIGN KEY (`project`)
     REFERENCES `fauxr-errors`.`projects` (`id`)
@@ -98,6 +115,11 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`errors` (
   CONSTRAINT `fk_errors_2`
     FOREIGN KEY (`location`)
     REFERENCES `fauxr-errors`.`locations` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_errors_3`
+    FOREIGN KEY (`lines`)
+    REFERENCES `fauxr-errors`.`lines` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

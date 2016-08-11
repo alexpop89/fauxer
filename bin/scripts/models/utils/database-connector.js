@@ -41,12 +41,12 @@ class DataBaseConnector {
     }
 
     insert(table, data) {
-        var columnsString = '(';
-        var valuesString = '(';
+        let columnsString = '(';
+        let valuesString = '(';
 
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
-                columnsString += key + ', ';
+                columnsString += '`' + key + '`, ';
                 valuesString += '\'' + data[key] + '\', ';
             }
         }
@@ -57,12 +57,12 @@ class DataBaseConnector {
         columnsString += ')';
         valuesString += ')';
 
-        return this._query('INSERT INTO ' + table + ' ' + columnsString + ' VALUES ' + valuesString + ';');
+        return this._query('INSERT INTO `' + table + '` ' + columnsString + ' VALUES ' + valuesString + ';');
     }
 
     update(table, data, conditions) {
-        var valuesString = '';
-        var conditionsString;
+        let valuesString = '';
+        let conditionsString;
 
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
@@ -77,12 +77,12 @@ class DataBaseConnector {
     }
 
     find(table, columns, conditions) {
-        var columnArray = Helper.makeArray(columns);
-        var conditionsString;
+        let columnArray = Helper.makeArray(columns);
+        let conditionsString;
 
         conditionsString = this._getConditionsString(conditions);
 
-        return this._query('SELECT ' + columnArray.join(', ') + ' FROM ' + table + ' WHERE ' + conditionsString + ';');
+        return this._query('SELECT ' + columnArray.join(', ') + ' FROM `' + table + '` WHERE ' + conditionsString + ';');
     }
 
     remove(table, conditions) {
@@ -94,11 +94,11 @@ class DataBaseConnector {
     }
 
     _getConditionsString(conditions) {
-        var conditionsString = '';
-        var conditionIndex = 0;
-        var conditionsLogic = conditions._matchAll ? 'AND' : 'OR';
+        let conditionsString = '';
+        let conditionIndex = 0;
+        let conditionsLogic = conditions._matchAll ? 'AND' : 'OR';
 
-        delete conditions['_matchAll'];
+        delete conditions._matchAll;
 
         for (let condition in conditions) {
             if (conditions.hasOwnProperty(condition)) {

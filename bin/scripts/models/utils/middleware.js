@@ -15,8 +15,14 @@ class MiddlewareClass {
         if (request.session.sessionHash && request.session.userId) {
             SessionController.checkSession(request.session.userId, request.session.sessionHash).then(() => {
                 next();
-            }, err => {
-                throw new Error(err);
+            }, () => {
+                response.render('pages/sign-in', {
+                    loggedIn: false
+                });
+            });
+        } else {
+            response.render('pages/sign-in', {
+                loggedIn: false
             });
         }
     }

@@ -14,12 +14,14 @@ class BaseClass {
         }
 
         for (let property in result) {
-            if (property.indexOf('_') === 0) {
-                delete result[property];
+            if (result.hasOwnProperty(property)) {
+                if (property.indexOf('_') === 0) {
+                    delete result[property];
+                }
             }
         }
 
-        delete result['_excludedProperties'];
+        delete result._excludedProperties;
         return result;
     }
 }

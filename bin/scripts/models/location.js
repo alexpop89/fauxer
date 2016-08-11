@@ -7,7 +7,7 @@ class LocationClass extends BaseClass {
     constructor({id, city, country_code, country_name, ip, latitude, longitude, metro_code, region_name, region_code, time_zone, zip_code, projectId}) {
         super();
 
-        this.id = this.id || 0;
+        this.id = id || 0;
         this.city = city;
         this.countryCode = country_code;
         this.countryName = country_name;
@@ -19,13 +19,20 @@ class LocationClass extends BaseClass {
         this.regionName = region_name;
         this.timeZone = time_zone;
         this.zipCode = zip_code;
-        this.project = projectId
+        this.project = projectId;
+    }
+
+    fetchData() {
+        return DatabaseConnector.find(config.DATABASE_TABLES.LOCATIONS, ['*'], {id: this.id}).then(response => {
+            Object.assign(this, response[0]);
+            return this;
+        });
     }
 
     save() {
         var locationData = this.serialize();
         locationData._matchAll = true;
-        delete locationData['id'];
+        delete locationData.id;
 
         return DatabaseConnector.find(config.DATABASE_TABLES.LOCATIONS, ['*'], locationData).then(rows => {
             if (rows && rows[0]) {

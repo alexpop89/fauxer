@@ -7,13 +7,15 @@
 <body id="project-list">
     <% include ../partials/nav.ejs %>
     <div class="container">
-        <% for(let i = 0; i < projects.length; i += 1) { %>
-            <li>
+        <ul id="projects" class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+            <% for(let i = 0; i < projects.length; i += 1) { %>
+            <li class="row">
                 <a href='/project/details/<%= projects[i].id %>'>
                     <%= projects[i].name + ' (' + projects[i].url + ')' %>
                 </a>
             </li>
-        <% } %>
+            <% } %>
+        </ul>
     </div>
 </body>
 </html>

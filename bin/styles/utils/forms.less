@@ -1,6 +1,15 @@
 form {
-    input {
+    input,
+    textarea {
+        border: 1px solid @transparent;
+        outline: none;
+        margin-bottom: 5px;
         padding: 10px 20px;
-        width: 100%;
+
+        &[type='submit'] {
+            background: @green;
+            color: @white-pure;
+            width: 100%;
+        }
     }
 }

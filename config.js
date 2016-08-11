@@ -6,7 +6,8 @@ const config = {
         "LOCATIONS": "locations",
         "PROJECTS": "projects",
         "ERRORS": "errors",
-        "SESSIONS": "sessions"
+        "SESSIONS": "sessions",
+        "LINES": "lines"
     },
     "SESSION_LIFETIME": 24 * 60 * 60 * 1000, //24hrs
     "DATABASE_NAME": "fauxr-errors",

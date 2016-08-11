@@ -82,7 +82,8 @@
         for (var error in payload.errors) {
             if (payload.errors.hasOwnProperty(error)) {
                 payload.errors[error].userAgent = USER_AGENT;
-                payload.errors[error].location = JSON.parse(LOCATION_DATA);
+                payload.errors[error].locationData = JSON.parse(LOCATION_DATA);
+                payload.errors[error].location = 0;
                 payload.errors[error].stackTrace = payload.errors[error].error ? payload.errors[error].error.stack : null;
                 delete payload.errors[error].error;
             }

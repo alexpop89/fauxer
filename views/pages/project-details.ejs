@@ -6,21 +6,34 @@
 
 <body id="project-details">
     <% include ../partials/nav.ejs %>
-    <script type="text/javascript" src="/client-side/project-details.js"></script>
-    <div class="container">
-        <h1 class="row"><%= project.name %></h1>
 
-        <ul class="row" id="errors-list">
+    <div class="container">
+        <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><%= project.name %></h1>
+
+        <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="errors-list">
             <% for(let i = 0; i < errors.length; i += 1) { %>
-            <li class="error" data-collapsed="true">
-                <div class="message"><strong><%= errors[i].message%></strong></div>
-                <div class="source"><label><strong>Source:</strong></label><%= errors[i].source%><strong>:<%= errors[i].lineNo%>:<%= errors[i].colNo%></strong></div>
-                <div class="time"><label>Occured: </label><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
-                <div class="toggle-stack-trace">Toggle Stack Trace</div>
-                <div class="stack-trace" style="display: none"><%= errors[i].stackTrace%></div>
+            <li class="error row" data-collapsed="true">
+                <div class="occurred"><%= errors[i].occurrence%></div>
+                <div class="message col-lg-12 col-md-12 col-sm-12 col-xs-12"><strong><%= errors[i].message%></strong></div>
+                <div class="source col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <label><strong>Source:</strong></label>
+                    <a href="/api/errors/details/<%= errors[i].project%>/<%= errors[i].id %>" data-error-id="<%= errors[i].id %>">
+                        <%= errors[i].source%><strong>:<%= errors[i].lineNo%>:<%= errors[i].colNo%></strong>
+                    </a>
+                </div>
+                <div class="source-details"></div>
+
+                <div class="time col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>Last Occurrence: </label><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
+                <div class="toggle-stack-trace col-lg-12 col-md-12 col-sm-12 col-xs-12">Toggle Stack Trace</div>
+                <textarea readonly class="stack-trace col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: none" rows="20">
+                    <%- errors[i].stackTrace.trim() %>
+                </textarea>
             </li>
             <% } %>
         </ul>
     </div>
+
+    <% include ../partials/footer.ejs %>
+    <script type="text/javascript" src="/client-side/project-details.js"></script>
 </body>
 </html>

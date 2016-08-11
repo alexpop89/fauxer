@@ -2,7 +2,7 @@ let config = require('../../../../config');
 
 class Validator {
     keysExist(data, keysArray) {
-        var allKeysExist = true;
+        let allKeysExist = true;
 
         for (let index = 0; index < keysArray.length; index += 1 in keysArray) {
             allKeysExist = data[keysArray[index]] ? allKeysExist : false;
@@ -14,7 +14,7 @@ class Validator {
     }
 
     emailValid(emailString) {
-        var validEmail = true;
+        let validEmail = true;
 
         if (!validEmail) {
             throw new Error(config.ERRORS.INVALID_EMAIL);

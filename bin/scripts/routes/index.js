@@ -1,10 +1,11 @@
-let express = require('express');
+const express = require('express');
 let router = express.Router();
 
-router.get('/', function(request, response) {
-    var loggedIn = (request.session.sessionHash && request.session.userId);
+router.get('/', (request, response) => {
+    'use strict';
+
     response.render('pages/index', {
-        loggedIn: loggedIn
+        loggedIn: (request.session.sessionHash && request.session.userId)
     });
 });
 

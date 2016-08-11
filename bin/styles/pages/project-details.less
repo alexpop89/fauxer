@@ -1,10 +1,29 @@
 #project-details {
     .error {
+        background: @white-pure;
         list-style: none;
         margin-bottom: 15px;
+        padding: 15px;
+        position: relative;
 
         label {
             margin-right: 5px;
+        }
+
+        .occurred {
+            .border-radius(100%, 100%, 100%, 100%);
+
+            background: @red;
+            color: @white-pure;
+            font-weight: 900;
+            font-size: 16px;
+            line-height: 32px;
+            position: absolute;
+            text-align: center;
+            top: 15px;
+            right: 15px;
+            height: 32px;
+            width: 32px;
         }
 
         .source {
@@ -14,10 +33,38 @@
             label {
                 color: @black;
             }
+
+            .error-popover {
+                background-color: @white-pure;
+                position: absolute;
+                z-index: 1;
+                width: 320px;
+                padding: 15px;
+                box-sizing: border-box;
+                height: auto;
+                border: 1px solid @gray;
+                left: 0;
+                right: 0;
+                margin: auto;
+                top: -100px;
+
+                &[data-has-content="true"] {
+                    background-image: none;
+                }
+
+                &[data-has-content="false"] {
+                    background: @white-pure data-uri('../images/spinner.svg') no-repeat center center;
+                    background-size: contain;
+                }
+            }
         }
 
         .message {
-            color: @red;
+            color: @purple;
+        }
+
+        .stack-trace {
+            resize: none;
         }
 
         .toggle-stack-trace {

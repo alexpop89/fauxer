@@ -9,18 +9,20 @@
     <div class="jumbotron text-center">
         <div class="container">
             <a href="/" class="lang-logo">
-                <img src="/images/logo.png">
+                <img src="/images/logo-white.png">
             </a>
             <h1>Fauxr error catcher on Herokuu</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur leo vel fermentum gravida.</p>
         </div>
     </div>
-    <div class="container">
-        <textarea rows="5" readonly onclick="this.focus();this.select();">
-          &lt;script&gt;
-            <% include ../../public/fauxr.min.js %>
-            &lt;&#47;script&gt;
-        </textarea>
-    </div>
+    <% if (loggedIn) { %>
+        <div class="container">
+            <textarea rows="6" readonly onclick="this.focus();this.select();">
+              &lt;script&gt;
+                <% include ../../public/fauxr.min.js %>
+                &lt;&#47;script&gt;
+            </textarea>
+        </div>
+    <% } %>
 </body>
 </html>

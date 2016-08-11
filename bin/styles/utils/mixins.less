@@ -2,3 +2,17 @@
     -webkit-border-radius: @topLeft @topRight @bottomLeft @bottomRight;
             border-radius: @topLeft @topRight @bottomLeft @bottomRight;
 }
+
+.center-y(@position: relative) {
+    position: @position;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.transition(@time: 300ms) {
+    -webkit-transition: all @time ease-in-out;
+       -moz-transition: all @time ease-in-out;
+        -ms-transition: all @time ease-in-out;
+         -o-transition: all @time ease-in-out;
+            transition: all @time ease-in-out;
+}

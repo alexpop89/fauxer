@@ -17,6 +17,23 @@ class HelperClass {
     makeArray(param) {
         return typeof param === 'object' ? param : [param];
     }
+
+    getLinesObject(stringData, lineNo) {
+        let linesData = JSON.parse(stringData);
+        let result = '';
+
+        for (let line in linesData) {
+            if (linesData.hasOwnProperty(line)) {
+                result = parseInt(line, 10) === lineNo ? result + '<span class="active">' : result;
+                result += '<strong>' + line + ':' + '</strong>';
+                result += linesData[line] + '\n';
+                result += '</br>';
+                result = parseInt(line, 10) === lineNo ? result + '</span>' : result;
+            }
+        }
+
+        return result;
+    }
 }
 
 module.exports = new HelperClass();

@@ -102,6 +102,8 @@ CREATE TABLE IF NOT EXISTS `fauxr-errors`.`errors` (
   `location` INT(11) NOT NULL,
   `project` INT(11) NOT NULL,
   `lines` INT(11) NOT NULL,
+  `ignored` TINYINT(1) NOT NULL DEFAULT 0,
+  `deleted` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_1_idx` (`project` ASC),

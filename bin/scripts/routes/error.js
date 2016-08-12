@@ -2,6 +2,7 @@ const ProjectController = require('../controllers/project');
 const ErrorController = require('../controllers/error');
 const ErrorClass = require('../models/error');
 const Middleware = require('../models/utils/middleware');
+const Helper = require('../models/utils/helper');
 const config = require('../../../config');
 
 const express = require('express');
@@ -33,7 +34,9 @@ router.get('/details/:projectId/:id', Middleware.validateSession, (request, resp
                 response.render('pages/error-details', {
                     loggedIn: true,
                     errors: errors,
-                    loadStates: config.LOAD_STATES
+                    loadStates: config.LOAD_STATES,
+                    currentErrorId: errorId,
+                    getLines: Helper.getLinesObject
                 });
             });
         }

@@ -12,22 +12,22 @@
 
         <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="errors-list">
             <% for(let i = 0; i < errors.length; i += 1) { %>
-            <li class="error row" data-collapsed="true">
-                <div class="occurred"><%= errors[i].occurrence%></div>
+            <li class="error row" data-collapsed="false">
+                <div class="occurred">x<%= errors[i].occurrence%></div>
+                <a class="open" href="/api/errors/details/<%= errors[i].project%>/<%= errors[i].id %>"><span class="glyphicon glyphicon-new-window"></span></a>
+
                 <div class="message col-lg-12 col-md-12 col-sm-12 col-xs-12"><strong><%= errors[i].message%></strong></div>
                 <div class="source col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <label><strong>Source:</strong></label>
-                    <a href="/api/errors/details/<%= errors[i].project%>/<%= errors[i].id %>" data-error-id="<%= errors[i].id %>">
+                    <span data-error-id="<%= errors[i].id %>">
                         <%= errors[i].source%><strong>:<%= errors[i].lineNo%>:<%= errors[i].colNo%></strong>
-                    </a>
+                    </span>
                 </div>
                 <div class="source-details"></div>
 
                 <div class="time col-lg-12 col-md-12 col-sm-12 col-xs-12"><label>Last Occurrence: </label><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
-                <div class="toggle-stack-trace col-lg-12 col-md-12 col-sm-12 col-xs-12">Toggle Stack Trace</div>
-                <textarea readonly class="stack-trace col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: none" rows="20">
-                    <%- errors[i].stackTrace.trim() %>
-                </textarea>
+                <div class="toggle-stack-trace col-lg-12 col-md-12 col-sm-12 col-xs-12">Toggle Stack Trace <span class="glyphicon glyphicon-chevron-down"></span></div>
+                <textarea onclick="this.focus();this.select();" readonly class="stack-trace col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: none" rows="20"><%- errors[i].stackTrace.trim() %></textarea>
             </li>
             <% } %>
         </ul>

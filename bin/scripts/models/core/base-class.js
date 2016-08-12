@@ -24,6 +24,16 @@ class BaseClass {
         delete result._excludedProperties;
         return result;
     }
+
+    makeDatabaseJSON(object) {
+        for (let key in object) {
+            if (object.hasOwnProperty(key)) {
+                object[key] = object[key].replace(/"/gi, '\\"').replace(/'/gi, "\\'");
+            }
+        }
+
+        return JSON.stringify(object);
+    }
 }
 
 module.exports = BaseClass;

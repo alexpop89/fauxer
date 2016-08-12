@@ -1,4 +1,6 @@
 (function (windowObject, documentObject, uniqueHash) {
+    'use strict';
+
     var INTERVAL_TIME = 1000;
     var ERRORS_ADDR = 'http://localhost:5000/api/errors';
     var LOCATION_ADDR = 'https://freegeoip.net/json/';

@@ -7,7 +7,7 @@ const Promise = require('promise');
 const http = require('http');
 
 class ErrorClass extends BaseClass {
-    constructor({id, message, source, lineNo, colNo, loadState, timestamp, userAgent, location, locationData, stackTrace}, projectId) {
+    constructor({id, message, source, lineNo, colNo, loadState, timestamp, userAgent, location, locationData, stackTrace, ignored, deleted}, projectId) {
         super();
 
         this._excludedProperties = ['locationData', 'linesData'];
@@ -27,6 +27,8 @@ class ErrorClass extends BaseClass {
         this.loadState = loadState;
         this.stackTrace = stackTrace;
         this.project = projectId;
+        this.ignored = ignored || 0;
+        this.deleted = deleted || 0;
 
         this._loadStatePretty = config.LOAD_STATES[loadState];
     }
@@ -45,7 +47,7 @@ class ErrorClass extends BaseClass {
 
     save() {
         return this._getErrorDetails(this.source, this.lineNo).then(response => {
-            this.linesData = new Lines(response);
+            this.linesData = new Lines({lineData: response});
 
             return this.locationData.save().then(() => {
                 this.location = this.locationData.id;
@@ -86,11 +88,11 @@ class ErrorClass extends BaseClass {
                     let lines = body.split('\n');
                     let data = {};
 
-                    data[lineNo - 1] = lines[lineNo - 1];
-                    data[lineNo] = lines[lineNo];
-                    data[lineNo + 1] = lines[lineNo + 1];
-                    data[lineNo + 2] = lines[lineNo + 2];
-                    data[lineNo + 3] = lines[lineNo + 3];
+                    data[lineNo - 2] = lines[lineNo - 3];
+                    data[lineNo - 1] = lines[lineNo - 2];
+                    data[lineNo] = lines[lineNo - 1];
+                    data[lineNo + 1] = lines[lineNo];
+                    data[lineNo + 2] = lines[lineNo + 1];
 
                     resolve(data);
                 });

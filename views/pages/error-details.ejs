@@ -7,21 +7,54 @@
 <body id="error-details">
 <% include ../partials/nav.ejs %>
 
+<div class="jumbotron text-center">
+    <h1><%= errors[0].message%></h1>
+
+    <ul class="actions">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span
+                        class="glyphicon glyphicon-cog"></span>Actions<span
+                        class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a id="ignore-this" href="#">Ignore This</a></li>
+                <li><a id="ignore-all" href="#">Ignore All Like This</a></li>
+                <li><a id="delete" href="#">Delete</a></li>
+                <li><a id="email" href="#">Email</a></li>
+                <li><a id="create-jira-ticket" href="#">Create JIRA Ticket</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 <div class="container">
-    <h1 class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div><%= errors[0].message%></div></h1>
+    <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="occurrences">
+        <% for (let i = 0; i < errors.length; i += 1) { %>
+            <% if (parseInt(errors[i].id, 10) === currentErrorId) { %>
+                <li class="occurrence" data-active="<%- parseInt(errors[i].id, 10) === currentErrorId %>">
+                    <div><strong><%= errors[i].source%>:<%= errors[i].lineNo%>:<%= errors[i].colNo%></strong></div>
+                    <div><strong>Occurred: </strong><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
+                    <div><strong>User Agent: </strong><%= errors[i].userAgent%></div>
+                    <div><strong>Load State: </strong><%- loadStates[errors[i].loadState].toUpperCase() %></div>
+                    <div><strong>Country: </strong><%= errors[i].locationData.countryName%>, <strong>IP: </strong><a target="_blank" href="http://www.infosniper.net/index.php?ip_address=<%= errors[i].locationData.ipAddress%>&map_source=1&overview_map=1&lang=1&map_type=1&zoom_level=7"><%= errors[i].locationData.ipAddress %></a></div>
+                    <div class="lines"><%- getLines(errors[i].linesData.lineData, errors[i].lineNo) %></div>
+                </li>
+            <% } %>
+        <% } %>
 
-    <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <% if (errors.length > 1) { %>
+            <li class="delimiter">OTHER OCCURENCES</li>
+        <% } %>
+
         <% for(let i = 0; i < errors.length; i += 1) { %>
-            <li>
-                <div><%= errors[i].source%>:<%= errors[i].lineNo%>:<%= errors[i].colNo%> </div>
-                <div><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
-                <div><%= errors[i].userAgent%></div>
-                <div><%= loadStates[errors[i].loadState] %></div>
-                <div><%= errors[i].locationData.countryName%>, <%= errors[i].locationData.ipAddress%></div>
-                <div>
-
-                </div>
-            </li>
+            <% if (parseInt(errors[i].id, 10) !== currentErrorId) { %>
+                <li class="occurrence" data-active="<%- parseInt(errors[i].id, 10) === currentErrorId %>">
+                    <div><strong><%= errors[i].source%>:<%= errors[i].lineNo%>:<%= errors[i].colNo%></strong></div>
+                    <div><strong>Occurred: </strong><%- new Date(parseInt(errors[i].timestamp, 10)) %></div>
+                    <div><strong>User Agent: </strong><%= errors[i].userAgent%></div>
+                    <div><strong>Load State: </strong><%- loadStates[errors[i].loadState].toUpperCase() %></div>
+                    <div><strong>Country: </strong><%= errors[i].locationData.countryName%>, <strong>IP: </strong><a target="_blank" href="http://www.infosniper.net/index.php?ip_address=<%= errors[i].locationData.ipAddress%>&map_source=1&overview_map=1&lang=1&map_type=1&zoom_level=7"><%= errors[i].locationData.ipAddress %></a></div>
+                    <div class="lines"><%- getLines(errors[i].linesData.lineData, errors[i].lineNo) %></div>
+                </li>
+            <% } %>
         <% } %>
     </ul>
 </div>

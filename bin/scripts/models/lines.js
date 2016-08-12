@@ -8,7 +8,7 @@ class LinesClass extends BaseClass {
         super();
 
         this.id = id || 0;
-        this.lineData = JSON.stringify(lineData);
+        this.lineData = this.makeDatabaseJSON(lineData);
     }
 
     fetchData() {

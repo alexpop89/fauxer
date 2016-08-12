@@ -1,0 +1,61 @@
+#error-details {
+    .jumbotron {
+        background: @purple;
+        color: @white-pure;
+        position: relative;
+    }
+
+    .occurrence,
+    .delimiter {
+        background: @white-pure;
+        list-style: none;
+        padding: 15px;
+        margin-bottom: 15px;
+
+        .lines {
+            border: 1px solid @gray;
+            background: @white;
+            padding: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+
+            .border-radius();
+
+            .active {
+                background: @red;
+                color: @white-pure;
+            }
+        }
+    }
+
+    .delimiter {
+        background: @purple;
+        color: @white-pure;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .actions {
+        position: absolute;
+
+        li {
+            list-style: none;
+
+            a,
+            a:hover,
+            a:focus,
+            a:visited {
+                color: @white-pure;
+            }
+        }
+
+        .dropdown-menu {
+            a,
+            a:hover,
+            a:focus,
+            a:visited {
+                color: @black;
+            }
+        }
+    }
+}
